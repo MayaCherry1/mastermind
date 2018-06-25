@@ -1,82 +1,101 @@
 require 'mastermind'
 
 
-game = Mastermind.new
+RSpec.describe Mastermind do
+	let(:game) { Mastermind.new }
+	let(:colors) { ['R' , 'O', 'Y', 'G', 'B', 'P'] }
 
-RSpec.describe Mastermind, "Print Directions" do
-
-	it "prints game play instructions to console" do
-		expect {game.print_directions}.to output(/To play:/).to_stdout 
+	describe '#colors' do
+		it 'returns the colors array' do
+			expect(game.colors).to eq (colors)
+		end
 	end
 
+	describe '#secret_code' do
+		it 'returns an empty array when initialized' do
+			expect(game.secret_code.class).to eq (Array)
+		end
+	end
+
+	describe '#secret_code' do
+		it 'can be changed' do
+			game.secret_code = ['A', 'B', 'C', 'D']
+			expect(game.secret_code).to eq (['A', 'B', 'C', 'D'])
+		end
+	end
+
+	describe '#print_directions' do
+		it "prints game play instructions to console" do
+			expect {game.print_directions}.to output(/To play:/).to_stdout 
+		end
+	end
 end
 
-RSpec.describe SecretCode, "Generate" do 
-	game = Mastermind.new
-	it "generates a secret code that only includes valid colors" do
-		secret_code = SecretCode.new
-		code = secret_code.generate(game.colors)
-		colors = game.colors
-		pass = true
+RSpec.describe CodeGenerator do
+	let(:secret) { CodeGenerator.new }
+	let(:colors) { ['R' , 'O', 'Y', 'G', 'B', 'P'] }
+	
+	describe '#generate' do	
+		let(:code) {secret.generate(colors)}
 
-		code.each do |element| 
-			if (!(colors.include?(element)))
-				pass = false
+		it 'generates a secret code of 4 colors' do
+			code = secret.generate(colors)
+		
+			expect(code.size).to be 4
+		end
+		
+		it "generates a secret code that only includes valid colors" do
+			expect(colors).to include(*code);
+		end
+	end
+end
+
+RSpec.describe Guess do
+	let(:guess) { Guess.new(id, code) }
+	let(:id) { 4 }
+	let(:code) { ['R', 'O', 'Y', 'G'] }
+	let(:colors) { ['R' , 'O', 'Y', 'G', 'B', 'P'] }
+
+
+	describe '#id' do
+		it 'returns the id' do
+			expect(guess.id).to be(id)
+		end
+	end
+
+	describe '#code' do
+		it 'returns the code' do
+			expect(guess.code).to eq (code)
+		end
+	end
+
+	describe '#valid?' do
+		context 'when the size of the array is four' do
+			it 'returns true' do
+				expect(guess.valid?(colors)).to eq(true)
 			end
 		end
 
-		expect(pass).to eq(true)
+		context 'when the size is not four' do
+			let(:code) { ['a'] }
+
+			it 'returns false' do
+				expect(guess.valid?(colors)).to eq(false)
+			end
+		end
+
+		context 'when the code includes a character that is not in the given colors' do
+			let(:code) { ['L','R','R','R'] }
+
+			it 'returns false' do
+				expect(guess.valid?(colors)).to eq(false)
+			end
+		end
+
 	end
 
-	it " generates a secret code of 4 colors" do
+	RSpec.describe
 
-		secret_code = SecretCode.new
-		code = secret_code.generate(game.colors)
-		
-		expect(code.size).to eq 4
-	end
+
 
 end
-
-RSpec.describe UserGuess, "prompt_user_guess" do
-	user = UserGuess.new
-
-	it " prints number of guesses remaining to console" do
-		expect {user.prompt_user_guess}.to output(/10/).to_stdout 
-	end
-
-	it " prompts user to enter guess" do
-		expect {user.prompt_user_guess}.to output(/enter code/).to_stdout 
-	end
-
-end
-
-RSpec.describe UserGuess, "check_size" do
-
-		user = UserGuess.new
-
-	it " returns true when the size of the array is four" do 
-		code = ['a','b','c','d']
-		expect(user.check_size(code)).to eq (true)
-	end
-
-	it "returns false when the size of the array is less than four" do
-		code = ['a','b','c']
-		expect(user.check_size(code)).to eq (false)
-
-	end
-
-	it "returns false when the size of the array is greater than four" do
-		code = ['a','b','c','d','e']
-		expect(user.check_size(code)).to eq (false)
-	end
-end
-
-
-
-
-
-
-
-
-
