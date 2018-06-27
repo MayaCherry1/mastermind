@@ -30,14 +30,14 @@ class Mastermind
 
 end
 
-def main 
-	game = Mastermind.new
-	game.print_directions
-	game.secret_code = CodeGenerator.new.generate (game.colors)	
-	PlayGame.new.loop_guesses(game.colors)
-	puts "Thank you for playing Mastermind!"
-end
+# def main 
+# 	game = Mastermind.new
+# 	game.print_directions
+# 	game.secret_code = CodeGenerator.new.generate (game.colors)	
+# 	PlayGame.new.loop_guesses(game.colors)
+# 	puts "Thank you for playing Mastermind!"
+# end
 
-if __FILE__ == $0
-	main
-end
+# if __FILE__ == $0
+# 	main
+# end

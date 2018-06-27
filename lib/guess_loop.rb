@@ -1,3 +1,6 @@
+
+require_relative './guess'
+
 class GuessLoop
 
 	attr_reader :past_guesses
@@ -15,14 +18,13 @@ class GuessLoop
 		input.upcase.tr(" ","").chars
 	end
 
-	def print_guesses (past_guesses)
+	def print_guesses
 		puts "\n\n"
 		past_guesses.each { |g| puts g.code.join " "}
 	end
 
 	def loop_guesses(colors)
-		past_guesses = []
-		while (@guess_number <= 10)
+		while (@past_guesses.size < 10)
 			print_guesses
 			code = fix_input (prompt_user_guess)
 			guess = Guess.new(@past_guesses.size + 1, code)

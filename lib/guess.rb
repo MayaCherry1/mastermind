@@ -1,4 +1,4 @@
-class Guess 
+class Guess
 
 	attr_reader :id, :code
 
