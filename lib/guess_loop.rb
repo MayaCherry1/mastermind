@@ -49,5 +49,4 @@ class GuessLoop
 		end
 	end
 
-
 end	
