@@ -1,0 +1,8 @@
+
+class game_end
+
+	def close_message
+		"Thank you for playing Mastermind!"
+	end
+end
+

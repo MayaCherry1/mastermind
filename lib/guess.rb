@@ -1,6 +1,8 @@
+require_relative './feedback'
+
 class Guess
 
-	attr_reader :id, :code
+	attr_reader :id, :code, :red, :white, :feedback
 
 	def initialize (id, code)
 		@id = id
@@ -17,6 +19,10 @@ class Guess
 
 	def check_colors (colors)
 		@code.all? { |c| colors.include?(c) }
+	end
+
+	def set_feedback(secret)
+		@feedback = Feedback.new(secret,@code).generate
 	end
 
 end
