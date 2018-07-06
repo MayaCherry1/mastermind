@@ -16,6 +16,16 @@ class GuessLoop
 	def prompt_user_guess
 		print %{Remaining guesses: #{10 - @past_guesses.size}\nPlease enter code [x x x x]: }
 		input = gets.chomp
+		check_universal(input)
+	end
+
+	def check_universal(input)
+		if (input.include? "/")
+			if input.include? "help"
+				print "directions"
+			elsif input.include? "quit"
+				abort
+			elsif input.inlude? ""
 	end
 
 	def fix_input (input)
