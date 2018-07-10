@@ -1,19 +1,20 @@
-class Feedback 
+class Pegs
+
 	attr :secret, :guess
+	attr_reader :red, :white
 
-
-	def initialize (secret, guess)
-		@secret = secret.clone 
+	def initialize (game_state, guess)
+		@secret = game_state.secret_code.clone 
 		@guess = guess.clone
+		check_red
+		check_white
+		@red = count_red
+		@white = count_white
 	end
 
-	def generate 
-		red_pegs
-		white_pegs
-		return {:white => count_white, :red => count_red}
-	end
+		private
 
-	def red_pegs
+	def check_red
 		4.times do |i| 
 			if @secret[i].eql? @guess[i] 
 				@secret[i] = '+'
@@ -22,7 +23,7 @@ class Feedback
 		end
 	end
 
-	def white_pegs
+	def check_white
 		4.times do |i| 
 			4.times do |j|
 				if @secret[i].eql? @guess[j] 
@@ -40,5 +41,4 @@ class Feedback
 	def count_white
 		@secret.count('-')
 	end
-
 end 

@@ -1,7 +1,7 @@
-require 'guess_loop'
+require 'game_loop'
 
-RSpec.describe GuessLoop do
-	let(:loop) {GuessLoop.new}
+RSpec.describe GameLoop do
+	let(:loop) {GameLoop.new}
 
 	describe '#past_guesses' do
 		it 'returns the past_guesses' do

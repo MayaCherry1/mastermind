@@ -1,28 +1,32 @@
-require_relative './feedback'
+require_relative './pegs'
 
 class Guess
 
-	attr_reader :id, :code, :red, :white, :feedback
+	attr_reader :id, :code, :pegs
 
-	def initialize (id, code)
-		@id = id
+	def initialize(code, game_state)
+		@id = game_state.past_guesses.size + 1
 		@code = code
+		@pegs = Pegs.new(game_state, code)
+		@game_state = game_state
 	end
 
-	def valid? (colors)
-		check_size && check_colors(colors)
+	def valid?
+		check_size && check_colors
 	end
+
+	def is_win?
+		@pegs.red == 4
+	end
+
+		private 
 
 	def check_size
 		@code.size == 4 
 	end
 
-	def check_colors (colors)
-		@code.all? { |c| colors.include?(c) }
-	end
-
-	def set_feedback(secret)
-		@feedback = Feedback.new(secret,@code).generate
+	def check_colors
+		@code.all? { |c| @game_state.COLORS.include?(c) }
 	end
 
 end

@@ -1,20 +1,21 @@
 class EndGame
 
-	def win_game(secret, num_guesses)
-		puts "\nCongratulations! The secret code was #{secret.join(" ")}"
-		puts "You won in #{num_guesses} guesses"
+	def initialize (game_state, dialog, input)
+		@game_state = game_state
 	end
 
-	def lose_game(secret)
-		puts "\nYou lost. The secret code was #{secret.join(" ")}"
-	end
-
-	def print_msg(has_won, secret, num_guesses)
-		if has_won
-			win_game(secret,num_guesses)
-		else
-			lose_game(secret)
+	def print_msg
+		if @game_state.has_won
+			dialog.win_game
+		else 
+			dialog.lose_game
 		end
+	end
+
+	def play_again?
+		dialog.play_again
+		again = input.play_again
+		return again.eql?('y')
 	end
 	
 end

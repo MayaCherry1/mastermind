@@ -1,9 +1,10 @@
 require 'guess'
 
 RSpec.describe Guess do
-	let(:guess) { Guess.new(id, code) }
+	let(:guess) { Guess.new(id, code, secret) }
 	let(:id) { 4 }
 	let(:code) { ['R', 'O', 'Y', 'G'] }
+	let(:secret) {['Y', 'Y', 'Y', 'Y']}
 	let(:colors) { ['R' , 'O', 'Y', 'G', 'B', 'P'] }
 
 	describe '#id' do
@@ -41,5 +42,15 @@ RSpec.describe Guess do
 			end
 		end
 
+	end
+
+	describe "#is_win?" do
+		it 'returns true if code matches secret'
+			let(:code) { secret }
+			expect(guess.is_win?).to eq (true)
+		end
+		it 'returns true if code matches secret'
+			expect(guess.is_win?).to eq (false)
+		end
 	end
 end

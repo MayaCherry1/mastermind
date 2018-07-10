@@ -1,18 +1,28 @@
-require_relative './game_setup'
 require_relative './code_generator'
-require_relative './guess_loop'
+require_relative './game_loop'
 require_relative './end_game'
+require_relative './dialog'
+require_relative './input'
+require_relative './game_state'
 
-game = GameSetup.new
 again = true
 while(again)
-	game.print_title
-	game.print_directions
-	game.continue
-	game.secret_code = CodeGenerator.new.generate (game.colors)	
-	guess = GuessLoop.new
-	guess.loop_guesses(game.colors, game.secret_code)
-	EndGame.new.print_msg(guess.has_won, game.secret_code, guess.past_guesses.size)
-	again = game.play_again?
-end
-game.thanks
+	game_state = GameState.new
+	dialog = Dialog.new(game_state)
+	input = Input.new
+	system("clear")
+	dialog.welcome
+	dialog.game_play_directions
+	dialog.continue_game
+	input.continue
+	system("clear")
+	game_state.secret_code = CodeGenerator.generate(game_state)	
+
+	GameLoop.new(game_state, dialog, input).play
+
+	end_game = EndGame.new(game_state, dialog, input)
+	end_game.print_msg
+	again = end_game.play_again?
+
+end 
+dialog.thanks
