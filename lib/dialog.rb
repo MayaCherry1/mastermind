@@ -10,14 +10,14 @@ class Dialog
 		@output.call "\nWelcome to Mastermind!" 
 	end
 
-	def game_play_directions
+	def directions
 		@output.call """\nTo play: The computer will generate a four character color code of the following 
-		colors Red (R), Orange (O), Yellow (Y), Green (G), Blue (B), Purple (P). You will try to
-		guess the code by writing a sequence of four uppercase letters, each representing
-		a color. Colors can be repeated and order does matter in the sequence. The computer
-		will return feedback in the form of pegs: red meaning that a color exists in the
-		secret code and is in the correct location; white meaning that the color is in the 
-		secret code but is in the wrong location. You will have ten guesses."""
+	colors Red (R), Orange (O), Yellow (Y), Green (G), Blue (B), Purple (P). You will try to
+	guess the code by writing a sequence of four uppercase letters, each representing
+	a color. Colors can be repeated and order does matter in the sequence. The computer
+	will return feedback in the form of pegs: red meaning that a color exists in the
+	secret code and is in the correct location; white meaning that the color is in the 
+	secret code but is in the wrong location. You will have ten guesses."""
 	end
 
 	def universal_commands
@@ -37,24 +37,24 @@ class Dialog
 	end
 	
 	def available_colors
-		@output.call "Available Colors: #{@game_state.COLORS.join(", ")}\n\n"
+		@output.call "Available Colors: #{GameState::COLORS.join(", ")}\n\n"
 	end
 
-	def past_guesses		
+	def past_guesses
 		@output.call @game_state.past_guesses.to_string
 	end
 
-	def input_prompt 
-		@output_2.call %{Remaining guesses: #{@game_state.remaining_guesses}\nPlease enter code [x x x x]: }
+	def prompt_guess 
+		@output_2.call %{\nRemaining guesses: #{@game_state.remaining_guesses}\nPlease enter code [x x x x]: }
 	end
 
 	def win_game
-		@output.call "Congratulations! The secret code was #{@game_state.secret_code.join(" ")}"
+		@output.call "\nCongratulations! The secret code was #{@game_state.secret_code.join(" ")}."
 		@output.call "You won in #{@game_state.past_guesses.size} guesses."
 	end
 	
 	def lose_game
-		@output.call "You lost. The secret code was #{@game_state.secret_code.join(" ")}"
+		@output.call "\nYou lost. The secret code was #{@game_state.secret_code.join(" ")}."
 	end
 
 	# def quit_game
@@ -62,7 +62,7 @@ class Dialog
 	# end
 
 	def play_again
-		@output_2.call "\nWould you like to play again? (y/n) "
+		@output_2.call "\nWould you like to play again? (y/n): "
 	end
 
 	def thanks

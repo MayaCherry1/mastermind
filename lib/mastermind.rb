@@ -1,28 +1,14 @@
-require_relative './code_generator'
-require_relative './game_loop'
-require_relative './end_game'
-require_relative './dialog'
-require_relative './input'
 require_relative './game_state'
+require_relative './ui_controller'
+require_relative './game_loop'
 
-again = true
-while(again)
+input = Input.new
+loop do
 	game_state = GameState.new
-	dialog = Dialog.new(game_state)
-	input = Input.new
-	system("clear")
-	dialog.welcome
-	dialog.game_play_directions
-	dialog.continue_game
-	input.continue
-	system("clear")
-	game_state.secret_code = CodeGenerator.generate(game_state)	
-
-	GameLoop.new(game_state, dialog, input).play
-
-	end_game = EndGame.new(game_state, dialog, input)
-	end_game.print_msg
-	again = end_game.play_again?
-
-end 
-dialog.thanks
+	@ui = UIController.new(game_state)
+	@ui.setup
+	GameLoop.new(game_state).play
+	@ui.game_over
+	break unless @ui.play_again?
+end
+@ui.thanks

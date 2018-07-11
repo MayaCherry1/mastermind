@@ -1,7 +1,9 @@
-class CodeGenerator
+require_relative './game_state'
 
-	def self.generate (game_state)
-		4.times.map { |c| game_state.COLORS.sample }
+module CodeGenerator
+
+	def self.generate
+		GameState::CODE_LENGTH.times.map { |c| GameState::COLORS.sample }
 	end
 
 end

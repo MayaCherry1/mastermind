@@ -1,20 +1,22 @@
-class EndGame
+class UIController
 
 	def initialize (game_state, dialog, input)
 		@game_state = game_state
+		@dialog = dialog
+		@input = input
 	end
 
 	def print_msg
 		if @game_state.has_won
-			dialog.win_game
+			@dialog.win_game
 		else 
-			dialog.lose_game
+			@dialog.lose_game
 		end
 	end
 
 	def play_again?
-		dialog.play_again
-		again = input.play_again
+		@dialog.play_again
+		again = @input.play_again
 		return again.eql?('y')
 	end
 	

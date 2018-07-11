@@ -1,7 +1,7 @@
 class Input
 
 	def initialize(args = {})
-		@input = args[:input] ||= ->{ gets.chomp }
+		@input = args[:input] ||= ->{ STDIN.gets.chomp }
 	end
 
 	def continue

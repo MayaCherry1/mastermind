@@ -1,22 +1,18 @@
 require_relative './guess'
+require_relative './input'
+require_relative './dialog'
 
 class GameLoop
 
-	attr_reader :past_guesses, :has_won
-	
-	GUESS_LIMIT = 10
-	WIN_CONDITION = 4
-
-	def initialize(game_state, dialog, input)
+	def initialize(game_state, input = Input.new)
 		@valid = true
 		@game_state = game_state
-		@dialog = dialog
+		@dialog = Dialog.new(game_state)
 		@input = input
 	end
 
 	def play
 		while (@game_state.remaining_guesses > 0)
-			system("clear")
 			display_game_dialog
 			guess = create_new_guess
 			check_validity(guess)
@@ -28,10 +24,11 @@ class GameLoop
 		private
 
 	def display_game_dialog
+		system("clear")
 		@dialog.invalid_message unless @valid
 		@dialog.available_colors
 		@dialog.past_guesses
-		@dialog.input_prompt
+		@dialog.prompt_guess
 	end
 
 	def create_new_guess

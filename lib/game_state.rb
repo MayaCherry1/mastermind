@@ -1,17 +1,21 @@
 require_relative './past_guesses'
+require_relative './code_generator'
 
 class GameState
 
-	attr_reader :COLORS
-	attr_accessor :secret_code, :has_won, :past_guesses
-
+	COLORS = ['R' , 'O', 'Y', 'G', 'B', 'P']
+	WIN_CONDITION = 4
 	GUESS_LIMIT = 10
-	
+	CODE_LENGTH = 4
+
+	attr_accessor :has_won, :past_guesses
+	attr_reader :secret_code 
+
 	def initialize
 		@secret_code = []
 		@has_won = false
 		@past_guesses = PastGuesses.new
-		@COLORS = ['R' , 'O', 'Y', 'G', 'B', 'P']
+		@secret_code = CodeGenerator.generate
 	end
 
 	def remaining_guesses

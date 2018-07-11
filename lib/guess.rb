@@ -7,8 +7,7 @@ class Guess
 	def initialize(code, game_state)
 		@id = game_state.past_guesses.size + 1
 		@code = code
-		@pegs = Pegs.new(game_state, code)
-		@game_state = game_state
+		@pegs = Pegs.new(code, game_state)
 	end
 
 	def valid?
@@ -16,17 +15,17 @@ class Guess
 	end
 
 	def is_win?
-		@pegs.red == 4
+		@pegs.red == GameState::WIN_CONDITION
 	end
 
 		private 
 
 	def check_size
-		@code.size == 4 
+		@code.size == GameState::CODE_LENGTH
 	end
 
 	def check_colors
-		@code.all? { |c| @game_state.COLORS.include?(c) }
+		@code.all? { |c| GameState::COLORS.include?(c) }
 	end
 
 end
