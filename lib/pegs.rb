@@ -2,14 +2,14 @@ class Pegs
 
 	attr_reader :red, :white
 
-	def initialize (guess_code, game_state)
-		@secret_code = game_state.secret_code.clone 
+	def initialize (guess_code, secret_code)
+		@secret_code = secret_code.clone 
 		@guess_code = guess_code.clone
 		check_red 
 		check_white 
 		@red = count_red
 		@white = count_white
-end
+	end
 
 		private
 

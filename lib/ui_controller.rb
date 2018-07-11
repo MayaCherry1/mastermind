@@ -17,12 +17,7 @@ class UIController
 	def game_over
 		system("clear")
 		@dialog.past_guesses
-		case game_state.has_won
-		when true
-			@dialog.win_game
-		when false
-			@dialog.lose_game
-		end
+		@game_state.has_won ? @dialog.win_game : @dialog.lose_game
 	end
 
 	def play_again?
@@ -47,4 +42,5 @@ class UIController
 		@input.continue
 		system("clear")
 	end
+
 end

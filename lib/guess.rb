@@ -7,14 +7,14 @@ class Guess
 	def initialize(code, game_state)
 		@id = game_state.past_guesses.size + 1
 		@code = code
-		@pegs = Pegs.new(code, game_state)
+		@pegs = Pegs.new(code, game_state.secret_code)
 	end
 
 	def valid?
 		check_size && check_colors
 	end
 
-	def is_win?
+	def win?
 		@pegs.red == GameState::WIN_CONDITION
 	end
 

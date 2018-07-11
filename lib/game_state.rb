@@ -12,7 +12,6 @@ class GameState
 	attr_reader :secret_code 
 
 	def initialize
-		@secret_code = []
 		@has_won = false
 		@past_guesses = PastGuesses.new
 		@secret_code = CodeGenerator.generate

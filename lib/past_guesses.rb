@@ -5,7 +5,7 @@ class PastGuesses
 	end
 
 	def save_guess(guess)
-		@past_guesses << (guess)
+		@past_guesses << guess
 	end
 
 	def size
