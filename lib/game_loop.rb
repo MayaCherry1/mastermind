@@ -44,7 +44,7 @@ class GameLoop
 	end
 
 	def check_win(guess)
-	 	@game_state.has_won = true if guess.is_win?
+	 	@game_state.has_won = guess.is_win?
 	end
 
 end	

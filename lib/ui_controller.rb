@@ -17,16 +17,17 @@ class UIController
 	def game_over
 		system("clear")
 		@dialog.past_guesses
-		if @game_state.has_won
+		case game_state.has_won
+		when true
 			@dialog.win_game
-		else 
+		when false
 			@dialog.lose_game
 		end
 	end
 
 	def play_again?
 		@dialog.play_again
-		return @input.play_again.eql?('y')
+		@input.play_again.eql?('y')
 	end
 
 	def thanks

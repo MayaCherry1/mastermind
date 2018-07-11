@@ -20,13 +20,13 @@ class Dialog
 	secret code but is in the wrong location. You will have ten guesses."""
 	end
 
-	def universal_commands
-	    @output.call """\n\n\n
-	Additional commands:
-		/help	 :to print the instructions
-		/restart :to generate a new game
-		/quit    :to quit the game"""
-	end
+	# def universal_commands
+	#     @output.call """\n\n\n
+	# Additional commands:
+	# 	/help	 :to print the instructions
+	# 	/restart :to generate a new game
+	# 	/quit    :to quit the game"""
+	# end
 
 	def continue_game
 		@output_2.call "\npress 'enter' to continue"

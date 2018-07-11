@@ -56,6 +56,13 @@ RSpec.describe Pegs do
 				expect(pegs.white).to be 4
 			end
 		end
+
+		context 'when all guesses match both location and color' do
+			it 'returns a value of 0' do
+				allow(game_state).to receive (:secret_code)  { ['R','O','Y','G'] }
+				expect(pegs.white).to be 0
+			end
+		end
 	end
 end
 
