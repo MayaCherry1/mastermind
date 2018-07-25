@@ -13,6 +13,7 @@ class GameLoop
 	def play
 		@game_state = @gs.new
 		@ui.new_game_message
+		@game_state.restore_state if @ui.restore?
 		while (@game_state.remaining_guesses > 0)
 			@ui.display_game_dialog(@valid, @game_state)
 			input = @ui.get_user_input
@@ -24,6 +25,7 @@ class GameLoop
 			    save_guess_if_valid(guess)
 				break if check_win(guess)
 			end
+			@game_state.save_state
 		end
 		@ui.game_over(@game_state)
 		play if @ui.play_again?
@@ -62,7 +64,7 @@ class GameLoop
 	end
 
 	def save_guess_if_valid(guess)
-		@game_state.past_guesses.save_guess(guess) if @valid
+		@game_state.save_guess(guess) if @valid
 	end
 
 	def check_win(guess)

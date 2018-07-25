@@ -15,8 +15,9 @@ class Dialog
 	guess the code by writing a sequence of four uppercase letters, each representing
 	a color. Colors can be repeated and order does matter in the sequence. The computer
 	will return feedback in the form of pegs: red meaning that a color exists in the
-	secret code and is in the correct location; white meaning that the colo r is in the 
-	secret code but is in the wrong location. You will have ten guesses."""
+	secret code and is in the correct location; white meaning that the color is in the 
+	secret code but is in the wrong location. You will have ten chances to guess the secret
+	code. Your progress will automatically be saved after each term."""
 	end
 
 	def game_wide_commands
@@ -25,6 +26,10 @@ class Dialog
 		/help	 :to print the instructions
 		/restart :to generate a new game
 		/quit    :to quit the game"""
+	end
+
+	def restore_game
+		@output_2.call "\nWould you like to restore an existing game? (Y,n): "
 	end
 
 	def continue_game
@@ -40,7 +45,7 @@ class Dialog
 	end
 
 	def past_guesses(past_guesses)
-		@output.call past_guesses.to_string
+		@output.call past_guesses.map { |g| "#{g.id}: #{g.code.join(" ")}\t red: #{g.pegs.red}  white: #{g.pegs.white}\n"}
 	end
 
 	def prompt_guess(remaining_guesses)
@@ -59,8 +64,8 @@ class Dialog
 		@output.call "The secret code was #{secret_code.join(" ")}"
 	end
 
-	def save_option
-		@output_2.call "would you like to save your progress? (Y/n): "
+	def save_statement
+		@output_2.call "Your progress has been saved."
 	end
 
 	def quit_game
@@ -68,7 +73,8 @@ class Dialog
 	end
 
 	def confirm_quit
-		@output_2.call "\nAre you sure you would like to quit? (Y/n): "
+		@output.call "\nYou have selected to quit. Your progress will automatically be saved."
+		@output_2.call "Are you sure you would like to quit? (Y/n): "
 	end
 
 	def confirm_restart

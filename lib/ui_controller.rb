@@ -11,9 +11,20 @@ class UIController
 	def new_game_message
 		system('clear')
 		@dialog.welcome
-		display_how_to_play
+		@dialog.game_play_directions
+		@dialog.game_wide_commands
 	end
 
+	def restore?
+		@dialog.restore_game
+		begin
+			return yes?
+		rescue 
+			@dialog.incorrect_input
+			restore?
+		end
+	end
+	
 	def display_game_dialog(valid, game_state)
 		system("clear")
 		@dialog.invalid_message unless valid
@@ -40,6 +51,10 @@ class UIController
 			@dialog.incorrect_input
 			restart?
 		end
+	end
+
+	def save
+		@dialog.save_statement
 	end
 
 	def quit?
@@ -77,8 +92,6 @@ class UIController
 	def exit_game
 		abort 'Thanks for playing!'
 	end
-
-		private
 
 	def continue
 		@dialog.continue_game
