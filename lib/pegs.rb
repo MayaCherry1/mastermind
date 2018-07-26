@@ -41,4 +41,4 @@ class Pegs
 		@secret_code.count('-')
 	end
 
-end 
+end

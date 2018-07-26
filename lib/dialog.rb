@@ -1,7 +1,6 @@
 class Dialog
 
-	def initialize(game_state, args = {})
-		@game_state = game_state
+	def initialize(args = {})
 		@output = args[:output] ||= ->(string) { puts string }
 		@output_2 = args[:output_2] ||= ->(string) { print string }
 	end
@@ -10,23 +9,28 @@ class Dialog
 		@output.call "\nWelcome to Mastermind!" 
 	end
 
-	def directions
+	def game_play_directions
 		@output.call """\nTo play: The computer will generate a four character color code of the following 
 	colors Red (R), Orange (O), Yellow (Y), Green (G), Blue (B), Purple (P). You will try to
 	guess the code by writing a sequence of four uppercase letters, each representing
 	a color. Colors can be repeated and order does matter in the sequence. The computer
 	will return feedback in the form of pegs: red meaning that a color exists in the
 	secret code and is in the correct location; white meaning that the color is in the 
-	secret code but is in the wrong location. You will have ten guesses."""
+	secret code but is in the wrong location. You will have ten chances to guess the secret
+	code. Your progress will automatically be saved after each term."""
 	end
 
-	# def universal_commands
-	#     @output.call """\n\n\n
-	# Additional commands:
-	# 	/help	 :to print the instructions
-	# 	/restart :to generate a new game
-	# 	/quit    :to quit the game"""
-	# end
+	def game_wide_commands
+	    @output.call """\n
+	Additional commands:
+		/help	 :to print the instructions
+		/restart :to generate a new game
+		/quit    :to quit the game"""
+	end
+
+	def restore_game
+		@output_2.call "\nWould you like to restore an existing game? (y,N): "
+	end
 
 	def continue_game
 		@output_2.call "\npress 'enter' to continue"
@@ -36,37 +40,52 @@ class Dialog
 		@output.call "INVALID INPUT: Please enter the first letter of the colors you wish to guess\n"
 	end
 	
-	def available_colors
-		@output.call "Available Colors: #{GameState::COLORS.join(", ")}\n\n"
+	def available_colors(colors)
+		@output.call "Available Colors: #{colors.join(", ")}\n\n"
 	end
 
-	def past_guesses
-		@output.call @game_state.past_guesses.to_string
+	def past_guesses(past_guesses)
+		@output.call past_guesses.map { |g| "#{g.id}: #{g.code.join(" ")}\t red: #{g.pegs.red}  white: #{g.pegs.white}\n"}
 	end
 
-	def prompt_guess 
-		@output_2.call %{\nRemaining guesses: #{@game_state.remaining_guesses}\nPlease enter code [x x x x]: }
+	def prompt_guess(remaining_guesses)
+		@output_2.call %{\nRemaining guesses: #{remaining_guesses}\nPlease enter code [x x x x]: }
 	end
 
-	def win_game
-		@output.call "\nCongratulations! The secret code was #{@game_state.secret_code.join(" ")}."
-		@output.call "You won in #{@game_state.past_guesses.size} guesses."
+	def win_game(past_guesses)
+		@output.call "\nCongratulations! You won in #{past_guesses.size} guesses."
 	end
 	
 	def lose_game
-		@output.call "\nYou lost. The secret code was #{@game_state.secret_code.join(" ")}."
+		@output.call "\nYou lost."
 	end
 
-	# def quit_game
-	# 	@output.call "\nYou quit. The secret code was #{game_state.secret.join(" ")}"
-	# end
+	def display_secret(secret_code)
+		@output.call "The secret code was #{secret_code.join(" ")}"
+	end
+
+	def quit_game
+		@output.call "\nYou have quit the game."
+	end
+
+	def confirm_quit
+		@output.call "\nYou have selected to quit. Your progress will automatically be saved."
+		@output_2.call "Are you sure you would like to quit? (Y/n): "
+	end
+
+	def confirm_restart
+		@output_2.call "\nAre you sure you would like to restart? (Y/n): " 
+	end
 
 	def play_again
-		@output_2.call "\nWould you like to play again? (y/n): "
+		@output_2.call "\nWould you like to play again? (Y/n): "
 	end
 
 	def thanks
 		@output.call "\nThanks for playing!"
 	end
 
+	def incorrect_input
+		@output.call "\nCommand not recognized. Please enter \'y\' to answer yes or \'n\' to answer no."
+	end
 end

@@ -1,38 +1,67 @@
+require_relative './game_state'
 require_relative './guess'
-require_relative './input'
-require_relative './dialog'
 
 class GameLoop
 
-	def initialize(game_state, input = Input.new)
+	def initialize(ui, gs = GameState, g = Guess)
 		@valid = true
-		@game_state = game_state
-		@dialog = Dialog.new(game_state)
-		@input = input
+		@ui = ui
+		@gs = gs
+		@g = g
 	end
 
 	def play
-		while (@game_state.remaining_guesses > 0)
-			display_game_dialog
-			guess = create_new_guess
-			check_validity(guess)
-		    save_guess_if_valid(guess)
-			return if check_win(guess)
+		@game_state = @gs.new
+		@ui.new_game_message
+		if @game_state.saved_game_exists?
+			@game_state.restore_state if @ui.restore?
+		else
+			@ui.continue
 		end
+		while (@game_state.remaining_guesses > 0)
+			@ui.display_game_dialog(@valid, @game_state)
+			input = @ui.get_user_input
+			if check_for_command(input)
+				call_command(input)
+			else
+				guess = create_new_guess(format_code(input))
+				check_validity(guess)
+			    save_guess_if_valid(guess)
+			    @game_state.save_state
+				break if check_win(guess)
+			end
+		end
+		@ui.game_over(@game_state)
+		@game_state.clear_saved_game
+		play if @ui.play_again?
+		@ui.exit_game
 	end
 
 		private
 
-	def display_game_dialog
-		system("clear")
-		@dialog.invalid_message unless @valid
-		@dialog.available_colors
-		@dialog.past_guesses
-		@dialog.prompt_guess
+	def check_for_command(input)
+		input.include?('/')
 	end
 
-	def create_new_guess
-		Guess.new(@input.get_user_guess, @game_state)
+	def call_command(input)
+		case input
+		when '/HELP'
+			@ui.display_how_to_play
+		when '/RESTART'
+			play if @ui.restart?
+		when '/QUIT'
+			@ui.exit_game if @ui.quit?
+		else
+			@ui.unknown_command
+		end
+	end
+
+	def format_code(input)
+		input.chars
+	end
+
+	def create_new_guess(input)
+		@g.new(input, @game_state)
 	end
 
 	def check_validity(guess)
@@ -40,11 +69,11 @@ class GameLoop
 	end
 
 	def save_guess_if_valid(guess)
-		@game_state.past_guesses.save_guess(guess) if @valid
+		@game_state.save_guess(guess) if @valid
 	end
 
 	def check_win(guess)
 	 	@game_state.has_won = guess.win?
 	end
 
-end	
+end

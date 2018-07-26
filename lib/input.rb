@@ -4,16 +4,8 @@ class Input
 		@input = args[:input] ||= ->{ STDIN.gets.chomp }
 	end
 
-	def continue
-		@input.call
-	end
-
-	def get_user_guess
-		@input.call.upcase.tr(" ","").chars
-	end
-
-	def play_again
-		@input.call.downcase.tr(" ","")
+	def get_user_input
+		@input.call.upcase.tr(" ","")
 	end
 
 end
