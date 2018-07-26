@@ -32,10 +32,6 @@ class Dialog
 		@output_2.call "\nWould you like to restore an existing game? (y,N): "
 	end
 
-	def no_game_restore
-	 	@output.call "There is no saved game to restore."
-	end
-
 	def continue_game
 		@output_2.call "\npress 'enter' to continue"
 	end
@@ -66,10 +62,6 @@ class Dialog
 
 	def display_secret(secret_code)
 		@output.call "The secret code was #{secret_code.join(" ")}"
-	end
-
-	def save_statement
-		@output_2.call "Your progress has been saved."
 	end
 
 	def quit_game
