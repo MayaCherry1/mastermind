@@ -13,11 +13,11 @@ class GameState
 	attr_accessor :has_won
 	attr_reader :secret_code, :past_guesses
 		
-	def initialize(sc = CodeGenerator, guess = Guess)
+	def initialize(sc = CodeGenerator, g = Guess)
 		@has_won = false
 		@past_guesses = []
 		@secret_code = sc.generate
-		@guess = Guess
+		@g = Guess
 		
 	end
 
@@ -47,6 +47,6 @@ class GameState
 		@secret_code = desired_state['secret_code']
 		past_guesses = []
 		temp_guesses = desired_state['past_guesses']
-		temp_guesses.map { |g| save_guess(@guess.new(g, self))}
+		temp_guesses.map { |c| save_guess(@g.new(c, self))}
 	end
 end

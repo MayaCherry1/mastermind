@@ -44,10 +44,20 @@ RSpec.describe GameState do
 	end
 
 	describe '#past_guesses' do
-		
-		it 'returns a PastGuess obeject' do
+
+		it 'is initialized to be an empty array' do
 			
-			expect(game_state.past_guesses.class).to eq PastGuesses
+			expect(game_state.past_guesses).to eq []
+		end
+	end
+
+	describe '#save_guess' do
+		
+		it 'adds what is passed to it as an argument to a saved data structure' do
+			game_state.save_guess('rrrr')
+			game_state.save_guess('oooo')
+			
+			expect(game_state.past_guesses.size).to be 2
 		end
 	end
 
@@ -67,7 +77,7 @@ RSpec.describe GameState do
 		end
 
 		it 'decreases the number of guesses remainging when guesses are added to past_guesses' do
-			game_state.past_guesses.save_guess(['R','O','Y','G'])
+			game_state.save_guess(['R','O','Y','G'])
 			
 			expect(game_state.remaining_guesses).to be 9
 		end
