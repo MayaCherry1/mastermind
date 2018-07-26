@@ -18,7 +18,6 @@ class GameState
 		@past_guesses = []
 		@secret_code = sc.generate
 		@g = Guess
-		
 	end
 
 	def remaining_guesses
@@ -33,7 +32,7 @@ class GameState
 		current_state = { 
 			:has_won => @has_won, 
 			:secret_code => @secret_code,
-			:past_guesses => @past_guesses.map { |g| g.code}
+			:past_guesses => @past_guesses.map { |g| g.code }
 		}
 		File.open("saved_game.json","w") do |f|
 			f.write(current_state.to_json)
@@ -47,6 +46,22 @@ class GameState
 		@secret_code = desired_state['secret_code']
 		past_guesses = []
 		temp_guesses = desired_state['past_guesses']
-		temp_guesses.map { |c| save_guess(@g.new(c, self))}
+		temp_guesses.map { |c| save_guess(@g.new(c, self)) }
+	end
+
+	def clear_saved_game
+		File.open("saved_game.json","w") do |f|
+			f.write('')
+		end
+	end
+
+	def saved_game_exists?
+		begin
+			file = File.read('saved_game.json')
+			JSON.parse(file)['has_won']
+			return true
+		rescue
+			return false
+		end
 	end
 end
