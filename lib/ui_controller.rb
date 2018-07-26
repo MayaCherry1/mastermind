@@ -16,9 +16,9 @@ class UIController
 	end
 
 	def restore?
-		@dialog.restore_game
 		begin
-			return yes?
+			@dialog.restore_game
+			return yes?(false)
 		rescue 
 			@dialog.incorrect_input
 			restore?
@@ -72,7 +72,7 @@ class UIController
 		continue
 	end
 
-	def game_over (game_state)
+	def game_over(game_state)
 		system("clear")
 		@dialog.past_guesses(game_state.past_guesses)
 		game_state.has_won ? @dialog.win_game(game_state.past_guesses) : @dialog.lose_game
@@ -99,12 +99,14 @@ class UIController
 		system("clear")
 	end
 
-	def yes?
+	def yes?(default = true)
 		case @input.get_user_input
-		when 'Y', ''
+		when 'Y'
 			return true
 		when 'N'
 			return false
+		when ''
+			return default
 		else 
 			raise 'Invalid input: please enter y or n'
 		end

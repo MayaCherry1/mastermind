@@ -6,7 +6,7 @@ class GameLoop
 	def initialize(ui, gs = GameState, g = Guess)
 		@valid = true
 		@ui = ui
-		@gs = gs		##RENAME state: GAME STATE CLASS, G: GUESS CLASS
+		@gs = gs
 		@g = g
 	end
 
@@ -23,9 +23,9 @@ class GameLoop
 				guess = create_new_guess(format_code(input))
 				check_validity(guess)
 			    save_guess_if_valid(guess)
+			    @game_state.save_state
 				break if check_win(guess)
 			end
-			@game_state.save_state
 		end
 		@ui.game_over(@game_state)
 		play if @ui.play_again?

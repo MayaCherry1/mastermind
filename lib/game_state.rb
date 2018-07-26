@@ -9,13 +9,16 @@ class GameState
 	GUESS_LIMIT = 10
 	CODE_LENGTH = 4
 
+
 	attr_accessor :has_won
 	attr_reader :secret_code, :past_guesses
-
-	def initialize(sc = CodeGenerator)
+		
+	def initialize(sc = CodeGenerator, guess = Guess)
 		@has_won = false
 		@past_guesses = []
 		@secret_code = sc.generate
+		@guess = Guess
+		
 	end
 
 	def remaining_guesses
@@ -44,14 +47,6 @@ class GameState
 		@secret_code = desired_state['secret_code']
 		past_guesses = []
 		temp_guesses = desired_state['past_guesses']
-		temp_guesses.map { |g| save_guess(Guess.new(g, self))}
-	end
-
-	def clear_saved_state
-		File.open("saved_game.json","w") do |f|
-		end
+		temp_guesses.map { |g| save_guess(@guess.new(g, self))}
 	end
 end
-
-
-### FIX RESTORE: CANNOT RESTORE OBJECTS ATM

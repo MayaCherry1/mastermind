@@ -29,7 +29,11 @@ class Dialog
 	end
 
 	def restore_game
-		@output_2.call "\nWould you like to restore an existing game? (Y,n): "
+		@output_2.call "\nWould you like to restore an existing game? (y,N): "
+	end
+
+	def no_game_restore
+	 	@output.call "There is no saved game to restore."
 	end
 
 	def continue_game
