@@ -1,3 +1,5 @@
+require 'colorize'
+
 class Dialog
 
 	def initialize(args = {})
@@ -6,11 +8,11 @@ class Dialog
 	end
 
 	def welcome
-		@output.call "\nWelcome to Mastermind!" 
+		@output.call "\nWelcome to Mastermind!".magenta
 	end
 
 	def game_play_directions
-		@output.call """\nTo play: The computer will generate a four character color code of the following 
+		@output.call """\nTo play:".cyan + " The computer will generate a four character color code of the following 
 	colors Red (R), Orange (O), Yellow (Y), Green (G), Blue (B), Purple (P). You will try to
 	guess the code by writing a sequence of four uppercase letters, each representing
 	a color. Colors can be repeated and order does matter in the sequence. The computer
@@ -22,34 +24,39 @@ class Dialog
 
 	def game_wide_commands
 	    @output.call """\n
-	Additional commands:
+	Additional commands:".cyan + """
 		/help	 :to print the instructions
 		/restart :to generate a new game
 		/quit    :to quit the game"""
 	end
 
 	def restore_game
-		@output_2.call "\nWould you like to restore an existing game? (y,N): "
+		@output_2.call "\nWould you like to restore an existing game? (y/N): ".yellow
 	end
 
 	def continue_game
-		@output_2.call "\npress 'enter' to continue"
+		@output_2.call "\npress 'enter' to continue".yellow
 	end
 
 	def invalid_message
-		@output.call "INVALID INPUT: Please enter the first letter of the colors you wish to guess\n"
+		@output.call "INVALID INPUT: Please enter the first letter of the colors you wish to guess\n".red
 	end
 	
 	def available_colors(colors)
-		@output.call "Available Colors: #{colors.join(", ")}\n\n"
+		@output.call "Available Colors: #{colors.join(", ")}\n".cyan
 	end
 
 	def past_guesses(past_guesses)
-		@output.call past_guesses.map { |g| "#{g.id}: #{g.code.join(" ")}\t red: #{g.pegs.red}  white: #{g.pegs.white}\n"}
+		@output.call past_guesses.map { |g| "#{g.id}:".magenta + " #{g.code.join(" ")}\t" + "red: #{g.pegs.red}".red + "  white: #{g.pegs.white}\n"}
 	end
 
 	def prompt_guess(remaining_guesses)
-		@output_2.call %{\nRemaining guesses: #{remaining_guesses}\nPlease enter code [x x x x]: }
+		@output_2.call "\nRemaining guesses: "+"#{remaining_guesses}".magenta
+		@output_2.call "\nPlease enter code [x x x x]: ".yellow
+	end
+
+	def game_over
+		@output.call "\t*** GAME OVER ***".red
 	end
 
 	def win_game(past_guesses)
@@ -70,15 +77,15 @@ class Dialog
 
 	def confirm_quit
 		@output.call "\nYou have selected to quit. Your progress will automatically be saved."
-		@output_2.call "Are you sure you would like to quit? (Y/n): "
+		@output_2.call "Are you sure you would like to quit? (Y/n): ".yellow
 	end
 
 	def confirm_restart
-		@output_2.call "\nAre you sure you would like to restart? (Y/n): " 
+		@output_2.call "\nAre you sure you would like to restart? (Y/n): ".yellow
 	end
 
 	def play_again
-		@output_2.call "\nWould you like to play again? (Y/n): "
+		@output_2.call "\nWould you like to play again? (Y/n): ".yellow
 	end
 
 	def thanks
@@ -86,6 +93,21 @@ class Dialog
 	end
 
 	def incorrect_input
-		@output.call "\nCommand not recognized. Please enter \'y\' to answer yes or \'n\' to answer no."
+		@output.call "\nCommand not recognized. Please enter \'y\' to answer yes or \'n\' to answer no.".red
 	end
+
+	# def colorize_code(code)
+	# 	colored_code = ''
+	# 	code.each do |c|
+	# 		case c
+
+	# 		when 'R' {code += c}
+	# 		when 'O'
+	# 		when 'Y'
+	# 		when 'G'
+	# 		when 'B'
+	# 		when 'P'
+	# 		end
+	# 	end
+	# end
 end

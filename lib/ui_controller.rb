@@ -74,6 +74,7 @@ class UIController
 
 	def game_over(game_state)
 		system("clear")
+		@dialog.game_over
 		@dialog.past_guesses(game_state.past_guesses)
 		game_state.has_won ? @dialog.win_game(game_state.past_guesses) : @dialog.lose_game
 		@dialog.display_secret(game_state.secret_code)
