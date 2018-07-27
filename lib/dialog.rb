@@ -2,7 +2,7 @@ class Dialog
 
 	def initialize(args = {})
 		@output = args[:output] ||= ->(string) { puts string }
-		@output_2 = args[:output_2] ||= ->(string) { print string }
+		@output_prompt = args[:output_prompt] ||= ->(string) { print string }
 	end
 
 	def welcome
@@ -28,7 +28,7 @@ class Dialog
 	end
 
 	def continue_game
-		@output_2.call "\npress 'enter' to continue"
+		@output_prompt.call "\npress 'enter' to continue"
 	end
 
 	def invalid_message
@@ -44,7 +44,7 @@ class Dialog
 	end
 
 	def prompt_guess(remaining_guesses)
-		@output_2.call %{\nRemaining guesses: #{remaining_guesses}\nPlease enter code [x x x x]: }
+		@output_prompt.call %{\nRemaining guesses: #{remaining_guesses}\nPlease enter code [x x x x]: }
 	end
 
 	def win_game(past_guesses)
@@ -60,7 +60,7 @@ class Dialog
 	end
 
 	def save_option
-		@output_2.call "would you like to save your progress? (Y/n): "
+		@output_prompt.call "would you like to save your progress? (Y/n): "
 	end
 
 	def quit_game
@@ -68,15 +68,15 @@ class Dialog
 	end
 
 	def confirm_quit
-		@output_2.call "\nAre you sure you would like to quit? (Y/n): "
+		@output_prompt.call "\nAre you sure you would like to quit? (Y/n): "
 	end
 
 	def confirm_restart
-		@output_2.call "\nAre you sure you would like to restart? (Y/n): " 
+		@output_prompt.call "\nAre you sure you would like to restart? (Y/n): " 
 	end
 
 	def play_again
-		@output_2.call "\nWould you like to play again? (Y/n): "
+		@output_prompt.call "\nWould you like to play again? (Y/n): "
 	end
 
 	def thanks

@@ -21,4 +21,8 @@ class GameState
 		GUESS_LIMIT - past_guesses.size
 	end
 
+	def reset
+		self
+	end
+
 end

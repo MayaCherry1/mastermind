@@ -3,20 +3,20 @@ require_relative './guess'
 
 class GameLoop
 
-	def initialize(ui, gs = GameState, g = Guess)
+	def initialize(ui, game_state = GameState.new, guess_holder = Guess)
 		@valid = true
 		@ui = ui
-		@gs = gs		##RENAME state: GAME STATE CLASS, G: GUESS CLASS
-		@g = g
+		@game_state = game_state
+		@guess_holder = Guess
 	end
 
 	def play
-		@game_state = @gs.new
+		@game_state = @game_state.reset
 		@ui.new_game_message
 		while (@game_state.remaining_guesses > 0)
 			@ui.display_game_dialog(@valid, @game_state)
 			input = @ui.get_user_input
-			if check_for_command(input)
+			if command?(input)
 				call_command(input)
 			else
 				guess = create_new_guess(format_code(input))
@@ -32,7 +32,7 @@ class GameLoop
 
 		private
 
-	def check_for_command(input)
+	def command?(input)
 		input.include?('/')
 	end
 
@@ -54,7 +54,7 @@ class GameLoop
 	end
 
 	def create_new_guess(input)
-		@g.new(input, @game_state)
+		@guess_holder.new(input, @game_state)
 	end
 
 	def check_validity(guess)
