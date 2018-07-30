@@ -9,7 +9,6 @@ class GameState
 	GUESS_LIMIT = 10
 	CODE_LENGTH = 4
 
-
 	attr_accessor :has_won
 	attr_reader :secret_code, :past_guesses
 		
