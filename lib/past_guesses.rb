@@ -13,7 +13,9 @@ class PastGuesses
 	end
 
 	def to_string
-		@past_guesses.map { |g| "#{g.id}: #{g.code.join(" ")}\t red: #{g.pegs.red}  white: #{g.pegs.white}\n"}
+		@past_guesses.map do |g| 
+			"#{g.id}: #{g.code.join(" ")}\t red: #{g.pegs.red}  white: #{g.pegs.white}\n"
+		end
 	end
 
 end

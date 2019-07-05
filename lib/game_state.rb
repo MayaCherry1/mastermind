@@ -8,17 +8,21 @@ class GameState
 	GUESS_LIMIT = 10
 	CODE_LENGTH = 4
 
-	attr_accessor :has_won, :past_guesses
+	attr_accessor :has_won, :past_guesses, :quit, :restart
 	attr_reader :secret_code 
 
-	def initialize
+	def initialize(pg = PastGuesses, sc = CodeGenerator)
 		@has_won = false
-		@past_guesses = PastGuesses.new
-		@secret_code = CodeGenerator.generate
+		@past_guesses = pg.new				##RENAME pg and sc
+		@secret_code = sc.generate
 	end
 
 	def remaining_guesses
 		GUESS_LIMIT - past_guesses.size
+	end
+
+	def reset
+		self
 	end
 
 end
